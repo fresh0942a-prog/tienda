@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductoService {
 
     // El repositorio es final para asegurar la inmutabilidad
-    private final ProductoRepository productoRepository;    
+    private final ProductoRepository productoRepository;
     private final FirebaseStorageService firebaseStorageService;
 
     @Transactional(readOnly = true)
@@ -29,8 +29,8 @@ public class ProductoService {
         }
         return productoRepository.findAll();
     }
-    
-     @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public Optional<Producto> getProducto(Integer idProducto) {
         return productoRepository.findById(idProducto);
     }
@@ -46,7 +46,7 @@ public class ProductoService {
                 producto.setRutaImagen(rutaImagen);
                 productoRepository.save(producto);
             } catch (IOException e) {
-                log.warn("No fue posible almacenar la imagen de la producto {}",producto.getIdProducto(),e);
+                log.warn("No fue posible almacenar la imagen de la producto {}", producto.getIdProducto(), e);
             }
         }
     }
@@ -66,8 +66,8 @@ public class ProductoService {
             throw new IllegalStateException("No se puede eliminar la producto. Tiene datos asociados.", e);
         }
     }
-    
-        @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public List<Producto> consultaDerivada(BigDecimal precioInf, BigDecimal precioSup) {
         return productoRepository.findByPrecioBetweenOrderByPrecioAsc(precioInf, precioSup);
     }
@@ -80,5 +80,11 @@ public class ProductoService {
     @Transactional(readOnly = true)
     public List<Producto> consultaSQL(BigDecimal precioInf, BigDecimal precioSup) {
         return productoRepository.consultaSQL(precioInf, precioSup);
+    }
+
+    //PRACTICA 2
+    @Transactional(readOnly = true)
+    public List<Producto> consultaAmpliada(Integer idCategoria, Integer existenciasMin) {
+        return productoRepository.consultaAmpliada(idCategoria, existenciasMin);
     }
 }

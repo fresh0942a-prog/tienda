@@ -21,4 +21,10 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @Query(nativeQuery = true,
             value = "SELECT * FROM producto p WHERE p.precio BETWEEN :precioInf AND :precioSup ORDER BY p.precio ASC")
     public List<Producto> consultaSQL(BigDecimal precioInf, BigDecimal precioSup);
+    
+    //PRACTICA 2
+ 
+    @Query(value = "SELECT p FROM Producto p WHERE p.categoria.idCategoria = :idCategoria AND p.existencias >="
+            + " :existenciasMin ORDER BY p.precio ASC")
+    public List<Producto> consultaAmpliada(Integer idCategoria, Integer existenciasMin);
 }
